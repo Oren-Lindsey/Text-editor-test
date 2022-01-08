@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Text editor test</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jitbit/HtmlSanitizer@master/HtmlSanitizer.js"></script>
+  </head>
+  <body>
+    <div id="editor">
+      <p>Hello World!</p>
+      <p>Some initial <strong>bold</strong> text</p>
+      <p><br></p>
+    </div>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="/js/script.js"></script>
+    <button onclick="submitData()">Submit</button>
+    <br>
+    <br>
+    <div id="currentData"></h2>
+    <script>getCurrentVal();</script>
+  </body>
+</html>
