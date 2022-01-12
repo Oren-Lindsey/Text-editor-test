@@ -2,7 +2,6 @@ var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
   ['blockquote', 'code-block'],
   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  [{ 'font': [] }],
   ['link'],
   ['clean']
 ];
@@ -11,17 +10,30 @@ var quill = new Quill('#editor', {
   modules: {
     toolbar: toolbarOptions
   },
-  theme: 'snow'
+  theme: 'snow',
+  placeholder: 'Type the content here...'
+});
+
+var quill = new Quill('#titleEditor', {
+  modules: {
+    toolbar: toolbarOptions
+  },
+  theme: 'snow',
+  placeholder: 'Type the title here...'
 });
 
 delete HtmlSanitizer.AllowedTags['img']
 delete HtmlSanitizer.AllowedTags['video']
 function sanitize() {
-  var bodyContent = document.querySelector('.ql-editor').innerHTML;
+  var bodyContent = document.getElementsByClassName('ql-editor')[1].innerHTML;
+  var titleContent = document.getElementsByClassName('ql-editor')[0].innerHTML;
+  console.log(titleContent);
   console.log(bodyContent);
   var cleanBodyContent = HtmlSanitizer.SanitizeHtml(bodyContent);
+  var cleanTitleContent = HtmlSanitizer.SanitizeHtml(titleContent);
   console.log(cleanBodyContent);
-  return cleanBodyContent;
+  var content = {'body':cleanBodyContent,'title':cleanTitleContent};
+  return content
 }
 
 function getCurrentVal() {
@@ -31,14 +43,18 @@ function getCurrentVal() {
 }
 
 function updatePage(data) {
-  console.log(data);
-  var div = document.getElementById('currentData');
-  div.innerHTML += data.currentValue;
+  console.log(data.currentBody);
+  var title = document.getElementById('currentData');
+  title.innerHTML += data.currentTitle.currentContent;
+  var content = document.getElementById('currentData');
+  content.innerHTML += data.currentBody.currentContent;
 }
 
 function submitData() {
   clean = sanitize();
-  const data = {"content": clean};
+  bodyContent = clean.body
+  titleContent = clean.title
+  const data = {"content":bodyContent,"title":titleContent};
   console.log(data);
   fetch('https://text-editor-test.s40.repl.co/api/current-value', {
     method: 'POST',

@@ -11,29 +11,43 @@ app.use(bodyParser.json());
 
 const db = new Database()
 var dbData = "<p>Hey there</p>"
-db.set("currentValue", dbData).then(() => {dbUpdated(dbData)});
+db.set("currentContent", dbData).then(() => {contentUpdated(dbData)});
+db.set("currentContent", "Title").then(() => {titleUpdated(dbData)});
 
-function dbUpdated(dbData) {
-  global.currentValue = {"currentValue":dbData}
+function contentUpdated(dbData) {
+  global.currentContent = {"currentContent":dbData}
+  console.log(dbData)
+}
+function titleUpdated(dbData) {
+  global.currentTitle = {"currentContent":dbData}
   console.log(dbData)
 }
 
 app.use(express.static('public'))
 
+//Homepage
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/index.html');
 })
 
+//Get current value
 app.get('/api/current-value', (req, res) => {
-  db.get("currentValue").then(value => {
-    res.send(currentValue);
+  db.get("currentContent").then(value => {
+    var currentVals = {}
+    currentVals["currentBody"] = currentContent
+    currentVals["currentTitle"] = currentTitle
+    console.log(currentVals)
+    res.send(currentVals)
   });
 })
 
+//Set current value
 app.post('/api/current-value', (req, res) => {
-  console.log(req.body.content);
-  const clean = sanitizeHtml(req.body.content)
-  db.set("currentValue", clean).then(() => {dbUpdated(clean)});
+  console.log(req.body);
+  const cleanContent = sanitizeHtml(req.body.content)
+  const cleanTitle = sanitizeHtml(req.body.title)
+  db.set("currentContent", cleanContent).then(() => {contentUpdated(cleanContent)});
+  db.set("currentTitle", cleanTitle).then(() => {titleUpdated(cleanTitle)});
   res.sendStatus(200)
 })
 
