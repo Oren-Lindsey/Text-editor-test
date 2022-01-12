@@ -23,7 +23,7 @@
 }
 @media (prefers-color-scheme: dark) {
   html {
-    background-color: #232323;
+    background-color: #1d1d1f;
   }
   .ql-editor {
     background-color: #aaaaaa;
