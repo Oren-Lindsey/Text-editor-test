@@ -1,3 +1,6 @@
+/* since this is just a test it doesn't have very good dark mode */
+
+
 @media (prefers-color-scheme: light) {
   html {
     background-color: white;
